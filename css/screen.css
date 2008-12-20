@@ -57,6 +57,7 @@ ul {
 
 #header h1 {
     display: inline;
+    margin: 0;
     font-family: verdana, sans-serif;
     color: #888;
 }
