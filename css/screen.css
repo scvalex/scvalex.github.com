@@ -63,6 +63,7 @@ ul {
 
 #header span {
     margin-left: 1em;
+    font-size: 1.1em;
 }
 
 #content {
@@ -73,6 +74,7 @@ ul {
     margin-top: 1em;
     border-top: 1px solid #aaa;
     text-align: center;
+    font-size: .8em;
 }
 
 #footer ul {
