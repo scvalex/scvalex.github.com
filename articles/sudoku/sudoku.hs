@@ -1,6 +1,7 @@
 import Data.Array.Diff
 import Data.List
 import Data.Maybe
+import System.Environment ( getArgs )
 
 type Position = (Int, Int)
 
@@ -76,19 +77,19 @@ findSolution aps zdfs brd = let brd' = inferInferUntilNoChange aps zdfs brd
                                                         (Possibilities ps) = brd' ! p
                                                     in listToMaybe $ catMaybes [findSolution aps zdfs (brd' // [(p, Filled x)]) | x <- ps]
 
-board1 :: [Int]
-board1 = [ 5, 3, 0, 0, 7, 0, 0, 0, 0
-         , 6, 0, 0, 1, 9, 5, 0, 0, 0
-         , 0, 9, 8, 0, 0, 0, 0, 6, 0
-         , 8, 0, 0, 0, 6, 0, 0, 0, 3
-         , 4, 0, 0, 8, 0, 3, 0, 0, 1
-         , 7, 0, 0, 0, 2, 0, 0, 0, 6
-         , 0, 6, 0, 0, 0, 0, 2, 8, 0
-         , 0, 0, 0, 4, 1, 9, 0, 0, 5
-         , 0, 0, 0, 0, 8, 0, 0, 7, 9]
+getLines :: FilePath -> IO [String]
+getLines f = do
+  ls <- readFile f
+  return $ lines ls
 
-board1' :: Board Int
-board1' = listArray ((0, 0), (8, 8)) $ map (\i -> if i `elem` [1..9] then Filled i else Invalid) board1
+mkBoard :: [Int] -> Board Int
+mkBoard is = listArray ((0, 0), (8, 8)) $ map (\i -> if i `elem` [1..9] then Filled i else Invalid) is
+
+getBoard :: FilePath -> IO (Board Int)
+getBoard f = do
+  ls <- getLines f
+  let is = concatMap (map read) . map words $ ls
+  return $ mkBoard is
 
 showStdBoard :: (Show a, Eq a) => Board a -> String
 showStdBoard brd = let x = map (\(Filled x) -> x) . elems $ brd
@@ -96,4 +97,7 @@ showStdBoard brd = let x = map (\(Filled x) -> x) . elems $ brd
                       $ fst (iterate (\(t, xs) -> let (h, r) = splitAt 9 xs in (h:t, r)) ([], x) !! 9) 
 
 main :: IO ()
-main = putStrLn $ showStdBoard $ fromJust $ findSolution allPossibilities stdZones board1'
+main = do
+  (f:_) <- getArgs
+  brd <- getBoard f
+  putStrLn $ showStdBoard $ fromJust $ findSolution allPossibilities stdZones brd
