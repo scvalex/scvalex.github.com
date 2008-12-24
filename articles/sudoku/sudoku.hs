@@ -5,20 +5,20 @@ import System.Environment ( getArgs )
 
 type Position = (Int, Int)
 
-data (Eq a) => Cell a = Filled a
-                      | Possibilities [a]
-                      | Invalid
-                        deriving (Eq, Show)
+data Cell = Filled Int
+          | Possibilities [Int]
+          | Invalid
+            deriving (Eq, Show)
 
-isFilled :: (Eq a) => Cell a -> Bool
+isFilled :: Cell -> Bool
 isFilled (Filled _) = True
 isFilled _ = False
 
-getFilled :: (Eq a) => Cell a -> Maybe a
+getFilled :: Cell -> Maybe Int
 getFilled (Filled x) = Just x
 getFilled _ = Nothing
 
-type Board a = DiffArray Position (Cell a)
+type Board = DiffArray Position Cell
 
 type ZoneDef = [Position]
 
@@ -34,20 +34,20 @@ allPossibilities = [1..9]
 zonesFor :: [ZoneDef] -> Position -> [ZoneDef]
 zonesFor zds p = filter (elem p) zds
 
-normalizeCell :: (Eq a) => Cell a -> Cell a
+normalizeCell :: Cell -> Cell
 normalizeCell (Possibilities xs)
     | null xs = Invalid
     | length xs == 1 = Filled (head xs)
 normalizeCell x = x
 
-mkCell :: (Eq a) => [a] -> [ZoneDef] -> Board a -> Position -> Cell a
+mkCell :: [Int] -> [ZoneDef] -> Board -> Position -> Cell
 mkCell aps zdfs brd p = let zs = zonesFor zdfs  p
                             cs = map (brd!) $ concat zs
                             alreadyUsed = catMaybes . map getFilled $ cs
                             ps = aps \\ alreadyUsed
                         in normalizeCell (Possibilities ps)
 
-inferSolveBoard :: (Eq a) => [a] -> [ZoneDef] -> Board a -> Board a
+inferSolveBoard :: [Int] -> [ZoneDef] -> Board -> Board
 inferSolveBoard aps zdfs brd = let cs = assocs brd
                                    notFilled = filter (not . isFilled . snd) cs
                                    filled = filter (isFilled . snd) cs
@@ -55,20 +55,20 @@ inferSolveBoard aps zdfs brd = let cs = assocs brd
                                    cs' = newCs ++ filled
                                in array (bounds brd) cs'
 
-inferInferUntilNoChange :: (Eq a) => [a] -> [ZoneDef] -> Board a -> Board a
+inferInferUntilNoChange :: [Int] -> [ZoneDef] -> Board -> Board
 inferInferUntilNoChange aps zdfs brd = let brd' = inferSolveBoard aps zdfs brd
                                        in if elems brd == elems brd' then brd else inferInferUntilNoChange aps zdfs brd'
 
 data BoardStatus = BoardIncomplete | BoardComplete | BoardInvalid
 
-checkBoard :: (Eq a) => Board a -> BoardStatus
+checkBoard :: Board -> BoardStatus
 checkBoard brd = let invalid = filter (==Invalid) . elems $ brd
                      notFilled = filter (not . isFilled) . elems $ brd
                  in if not . null $ invalid
                     then BoardInvalid
                     else if null notFilled then BoardComplete else BoardIncomplete
 
-findSolution :: (Eq a) => [a] -> [ZoneDef] -> Board a -> Maybe (Board a)
+findSolution :: [Int] -> [ZoneDef] -> Board -> Maybe Board
 findSolution aps zdfs brd = let brd' = inferInferUntilNoChange aps zdfs brd
                             in case checkBoard brd' of
                                  BoardInvalid -> Nothing
@@ -82,16 +82,16 @@ getLines f = do
   ls <- readFile f
   return $ lines ls
 
-mkBoard :: [Int] -> Board Int
+mkBoard :: [Int] -> Board
 mkBoard is = listArray ((0, 0), (8, 8)) $ map (\i -> if i `elem` [1..9] then Filled i else Invalid) is
 
-getBoard :: FilePath -> IO (Board Int)
+getBoard :: FilePath -> IO Board
 getBoard f = do
   ls <- getLines f
   let is = concatMap (map read) . map words $ ls
   return $ mkBoard is
 
-showStdBoard :: (Show a, Eq a) => Board a -> String
+showStdBoard :: Board -> String
 showStdBoard brd = let x = map (\(Filled x) -> x) . elems $ brd
                    in unlines . map unwords . map (map show) . reverse 
                       $ fst (iterate (\(t, xs) -> let (h, r) = splitAt 9 xs in (h:t, r)) ([], x) !! 9) 
