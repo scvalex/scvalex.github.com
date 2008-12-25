@@ -83,7 +83,7 @@ getLines f = do
   return $ lines ls
 
 mkBoard :: [Int] -> Board
-mkBoard is = listArray ((0, 0), (8, 8)) $ map (\i -> if i `elem` [1..9] then Filled i else Invalid) is
+mkBoard = listArray ((0, 0), (8, 8)) . map (\i -> if i `elem` [1..9] then Filled i else Invalid)
 
 getBoard :: FilePath -> IO Board
 getBoard f = do
@@ -93,7 +93,7 @@ getBoard f = do
 
 showStdBoard :: Board -> String
 showStdBoard brd = let x = map (\(Filled x) -> x) . elems $ brd
-                   in unlines . map unwords . map (map show) . reverse 
+                   in unlines . map (unwords . map show) . reverse 
                       $ fst (iterate (\(t, xs) -> let (h, r) = splitAt 9 xs in (h:t, r)) ([], x) !! 9) 
 
 main :: IO ()
