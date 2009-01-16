@@ -1,0 +1,12 @@
+#blog_comment {
+    display: inline;
+}
+
+#blog_comment fieldset {
+    display: inline;
+    min-width: 25em;
+}
+
+#live_preview {
+    min-height: 4em;
+}

@@ -43,6 +43,22 @@ ul {
     display: hidden;
 }
 
+.indent {
+    margin-left: 1em;
+}
+
+.Indent {
+    margin-left: 2em;
+}
+
+.INDENT {
+    margin-left: 4em;
+}
+
+.bordered {
+    border: 1px solid #999;
+}
+
 /*----------------------------------------*/
 
 #page {
@@ -69,6 +85,27 @@ ul {
 
 #content {
     min-height: 30em;
+    margin-top: 1.2em;
+}
+
+#content form fieldset {
+    border-left-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+}
+
+#content form legend {
+    padding-bottom: .2em;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+#content form div {
+    margin-bottom: .8em;
+}
+
+#content form label {
+    display: block;
 }
 
 #footer {
