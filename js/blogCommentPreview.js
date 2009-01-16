@@ -1,6 +1,6 @@
 var BlogCommentPreview = {
     updateLivePreview: function() {
-	var commentText = $("comment_text").value;
+	var commentText = $("comment_text").value.stripTags();
 	$("live_preview").update(commentText);
     }
 };
