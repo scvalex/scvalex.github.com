@@ -59,6 +59,10 @@ ul {
     border: 1px solid #999;
 }
 
+.inline {
+    display: inline;
+}
+
 /*----------------------------------------*/
 
 #page {
