@@ -1,6 +1,6 @@
 module Data.SegmentTree.Examples where
 
-import SegTree
+import Data.SegmentTree
 
 import Data.Monoid
 
