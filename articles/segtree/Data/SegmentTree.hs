@@ -1,4 +1,4 @@
-module SegTree ( SegmentTree(..), mkTree, queryTree ) where
+module Data.SegmentTree ( SegmentTree(..), mkTree, queryTree ) where
 
 import Data.Monoid
 

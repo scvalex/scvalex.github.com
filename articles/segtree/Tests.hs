@@ -1,4 +1,4 @@
-import SegTree
+import Data.SegmentTree
 
 import Data.Monoid
 import Text.Printf ( printf )

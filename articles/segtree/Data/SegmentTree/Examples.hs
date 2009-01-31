@@ -1,4 +1,4 @@
-module SegTreeExamples where
+module Data.SegmentTree.Examples where
 
 import SegTree
 
