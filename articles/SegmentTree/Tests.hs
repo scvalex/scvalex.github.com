@@ -35,7 +35,9 @@ props = [ ("mkTree reversible", quickCheck prop_MkUnMkTree)
         , ("sum ok", quickCheck prop_SumOk)
         , ("inverted intervals", quickCheck prop_InvertedIntervalSum)]
 
-main = do
+runTests = do
   putStrLn "Testing SegTree"
   mapM_ (\(s, a) -> printf "  %-30s: " s >> a) props
   putStrLn "All tests done"
+
+main = runTests

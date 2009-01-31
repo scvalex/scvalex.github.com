@@ -1,16 +1,50 @@
+-- | This module contains the 'SegmentTree' data structure, its
+-- constructor and the query function.
+--
+-- Example Usage:
+--
+-- @
+--     import Data.Monoid
+--     import Data.SegmentTree
+--     ...
+--     st = mkTree $ map Sum [0..10]
+--     ...
+--     queryTree st (0, 10) == Sum 55
+--     queryTree st (5, 10) == Sum 45
+--     queryTree st (0, 4)  == Sum 10
+-- @
+
 module Data.SegmentTree ( SegmentTree(..), mkTree, queryTree ) where
 
 import Data.Monoid
+import Text.Printf
 
--- | Standard definition of a tree with unspecified cargo type.
 data (Monoid a) => Tree a = Branch a (Tree a) (Tree a) | Leaf a
 
 getCargo (Branch x _ _) = x
 getCargo (Leaf x)       = x
 
--- | A Tree and the bounds of its corresponding interval.
+-- | A 'SegmentTree' is a binary tree and the bounds of its
+-- corresponding interval.
 data (Monoid a) => SegmentTree a = SegmentTree (Tree a) (Int, Int)
 
+instance (Monoid a) => Show (SegmentTree a) where
+    show (SegmentTree t (l, u)) = unlines $ go t (l, u)
+        where
+          go (Branch _ lc rc) (l, u) = 
+              let m = (u-l) `div` 2
+                  (ls, rs) = (go lc (l, l+m), go rc (l+m+1, u))
+                  (ls', rs') = (indentTree True ls, indentTree False rs)
+                  ts = printf "[%d..%d]" l u
+              in concat [[ts], ls', rs']
+          go (Leaf _) (l, u) = [printf "[%d]" l]
+          indentTree _ [] = []
+          indentTree True [x] = [printf "|-- %s" x]
+          indentTree False [x] = [printf "`-- %s" x]
+          indentTree True (x:xs) = indentTree True [x] ++ map ("|     "++) xs
+          indentTree False (x:xs) = indentTree False [x] ++ map ("      "++) xs
+
+-- | Build the 'SegmentTree' for the given list. Time: O(n*log n)
 mkTree :: (Monoid a) => [a] -> SegmentTree a
 mkTree xs = SegmentTree (go xs listBounds) listBounds
     where
@@ -25,6 +59,8 @@ mkTree xs = SegmentTree (go xs listBounds) listBounds
               in Branch (getCargo leftc `mappend` getCargo rightc) 
                         leftc rightc
 
+-- | Query the 'SegmentTree' for the specified closed interval. Time:
+-- O(log n)
 queryTree :: (Monoid a) => SegmentTree a -> (Int, Int) -> a
 queryTree (SegmentTree t (s, e)) (l, u) = go t (s, e)
     where
