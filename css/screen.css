@@ -2,7 +2,8 @@ body {
     margin: 0;
     padding: 0;
     border-top: .5em solid #666;
-    font-family: georgia, serif;
+    font-family: , serif;
+    font-size: 1.1em;
     color: #333;
     background-color: #fff;
 }
@@ -90,26 +91,29 @@ ul {
 #content {
     min-height: 30em;
     margin-top: 1.2em;
+    text-align: justify;
 }
 
-#content form fieldset {
-    border-left-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-}
-
-#content form legend {
-    padding-bottom: .2em;
-    font-size: 1.3em;
+#content h2 {
+    display: inline;
+    margin-right: .4em;
+    font-size: 1em;
     font-weight: bold;
+    text-effect: underline;
 }
 
-#content form div {
-    margin-bottom: .8em;
+#content p {
+    text-align: justify;
 }
 
-#content form label {
-    display: block;
+#content .firstPara {
+    display: inline;
+}
+
+#content .section {
+    margin: 0;
+    padding: 0;
+    margin-top: 1em;
 }
 
 #footer {
