@@ -14,8 +14,8 @@ title: Segment Trees
 <div class="section">
   <h2>Observations:</h2>
 
-  <p class="firstPara">First of all, notice that there are only two
-  requirements for <em>xs</em>:</p>
+  <p class="firstPara">First of all, notice that we have only two
+  requirements for <em>xs</em>' elements:</p>
 
   <ul>
     <li>we must be able to accumulate them; and</li>
@@ -23,8 +23,7 @@ title: Segment Trees
     result of queries on empty intervals).</li>
   </ul>
 
-  <p>These two suggest that the elements of <em>xs</em>
-    are <strong>Monoid</strong>s.</p>
+  <p>These two suggest that the elements are <strong>Monoid</strong>s.</p>
 
   <p>Strictly speaking, the accumulation function need not be
     associative, but, if it is, we can build a <strong>segment
@@ -45,9 +44,9 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
   <p>The <em>queryInterval</em> function requires no additional space
     and takes time proportional to the interval's size.  Therefore,
     the time necessary to query all intervals
-    is <strong>O(n<sup>3</sup>)</strong>.  For large values
-    of <em>n</em>, this is clearly unacceptable.  We examine a faster
-    algorithm in the next section.</p>
+    is <strong class="icode">O(n<sup>3</sup>)</strong>.  For large
+    values of <em>n</em>, this is clearly unacceptable.  We examine a
+    faster algorithm in the next section.</p>
 </div>
 
 <div class="section">

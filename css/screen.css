@@ -34,12 +34,12 @@ a:hover, a:active {
 }
 
 p {
-    line-height: 1.5em;
+    line-height: 1.4em;
 }
 
 img {
     display: block;
-    margin: 1em, auto;
+    margin: 1em, auto, 1em, auto;
 }
 
 /*----------------------------------------*/
@@ -66,6 +66,11 @@ img {
 
 .inline {
     display: inline;
+}
+
+.icode {
+    font-size: .9em;
+    font-variant: small-caps;
 }
 
 .emailLink:link, .emailLink:visited {
@@ -115,7 +120,12 @@ img {
     text-decoration: underline;
 }
 
-#content ul, #content p {
+#content ul {
+    margin-bottom: .6em;
+    margin-top: .2em;
+}
+
+#content p {
     margin-top: .4em;
 }
 
@@ -137,11 +147,17 @@ img {
     padding: 0;
  }
 
-#resources li {
+#resources h2 {
+    display: block;
+    margin-bottom: .6em;
+}
+
+#resources ul li {
+    margin-bottom: .4em;
     text-align: justify;
 }
 
-#resources li a {
+#resources ul li a {
     margin-right: 1em;
 }
 
