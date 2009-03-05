@@ -132,6 +132,11 @@ p {
     padding: 0;
  }
 
+#comments {
+    border-top: 1px solid #aaa;
+    margin-top: 3em;
+}
+
 #footer {
     border-top: 1px solid #aaa;
     font-size: .8em;
