@@ -14,8 +14,8 @@ title: Segment Trees
 <div class="section">
   <h2>Observations:</h2>
 
-  <p class="firstPara">First of all, notice that we have only two
-  requirements for <em>xs</em>' elements:</p>
+  <p class="firstPara">Notice that we have only two requirements for
+  the elements of <em>xs</em>:</p>
 
   <ul>
     <li>we must be able to accumulate them; and</li>
@@ -59,6 +59,12 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
   accumulation of the elements with indices between <em>l</em>
   and <em>u</em> is <em>something</em></strong>.</p>
 
+  <div class="imageBox">
+    <img src="SegmentTree/sumTree17.png" alt="the sum interval tree for [1..7]" />
+    <span class="caption">The interval tree for [1..7] with addition
+    for accumulation</span>
+  </div>
+
 </div>
 
 <div id="resources">
@@ -68,7 +74,7 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
     <li><a href="http://www.topcoder.com/tc?module=Static&d1=tutorials&d2=lowestCommonAncestor#Segment_Trees">
     TopCoder article on RMQ and LCA</a> Even though the article is not
     about segment trees <em>per se</em> (it details a few RMQ and LCA
-    algorithms), the section about them is an excellent down-to-earth
+    algorithms), the section on them is an excellent down-to-earth
     introduction.</li>
 
     <li><a href="http://en.wikipedia.org/wiki/Segment_tree">Wikipedia
@@ -78,8 +84,9 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
 
     <li><a href="http://apfelmus.nfshost.com/monoid-fingertree.html">Monoids
     and Finger Trees</a> apfelmus's article is a good example of how
-    to use Monoids to abstract seemingly unrelated operations.  He
-    uses them to unify priority queue operations; here, we use them to
-    abstract <strong>all</strong> valid operations on intervals.</li>
+    to use Monoids to abstract seemingly unrelated operations; he uses
+    them to unify priority queue operations.  Similarly, we use
+    Monoids to abstract <strong>all</strong> valid accumulation
+    operations on intervals.</li>
   </ul>
 </div>
