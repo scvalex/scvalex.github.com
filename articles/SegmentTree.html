@@ -68,6 +68,15 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
     as accumulation</span>
   </div>
 
+{% highlight haskell %}
+-- A binary tree.
+data (Monoid a) => Tree a = Branch a (Tree a) (Tree a) | Leaf a
+
+-- A 'SegmentTree' is a binary tree and the bounds of its
+-- corresponding interval.
+data (Monoid a) => SegmentTree a = SegmentTree (Tree a) (Int, Int)
+{% endhighlight %}
+
   <p>There are two types of nodes:</p>
   <ul>
     <li>Each <strong>leaf</strong> holds a single element.  Reading
@@ -80,19 +89,12 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
         overlaps the initial list.</li>
   </ul>
 
-{% highlight haskell %}
--- A binary tree.
-data (Monoid a) => Tree a = Branch a (Tree a) (Tree a) | Leaf a
-
--- A 'SegmentTree' is a binary tree and the bounds of its
--- corresponding interval.
-data (Monoid a) => SegmentTree a = SegmentTree (Tree a) (Int, Int)
-{% endhighlight %}
-
   <p>We construct a segment tree recursively by starting with the list
-  and repeatedly splitting it in half.  In the following code, we only
-  chop off the beginning of the list so that, at every iteration of the
-  function, the list head is where it should be.</p>
+  and repeatedly splitting it in half.</p>
+
+  <p>For the sake of efficieny, we only chop off the beginning of the
+  list.  The list's head is always where it should be, but its end
+  remains fixed.</p>
 
 {% highlight haskell %}
 -- Build the 'SegmentTree' for the given list. Time: O(n*log n)
