@@ -1,12 +1,8 @@
-/* test to see whether the js file loaded correctly */
-function helloWorld() {
-    alert("Hello world");
+function logit(s) {
+    if (window["console"] && console.log)
+	console.log(s);
 }
 
-/* add observers when page finishes loading */
 document.observe("dom:loaded", function() {
-    /*$("header").observe("click", function(event) {
-	alert(typeof(event));
-    });*/
-    console.log("Added all observers.");
+    logit("Added all observers.");
 });
