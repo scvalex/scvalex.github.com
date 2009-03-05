@@ -6,28 +6,35 @@ title: Segment Trees
 <div class="section">
   <h2>Problem:</h2>
 
-  <p class="firstPara">Given a list <em>xs</em>, answer a large
-    number of questions of the form "what is the accumulation of the
-    elements whose indices belong to the range [l, u]?".</p>
+  <p class="firstPara">Given a list <em>xs</em>, answer a large number
+    of questions of the form "what is the accumulation of the elements
+    whose indices are in the range [l, u]?".</p>
 </div>
 
 <div class="section">
   <h2>Observations:</h2>
 
-  <p class="firstPara">First of all, notice that the only
-    requirements for the elements of <em>xs</em> is that they can be
-    accumulated and that the neutral element, <em>e</em>, exists
-    (<em>e</em> is the result of queries on empty intervals).  These
-    two conditions suggest constraining the elements of <em>xs</em> to
-    those that form <strong>monoids</strong>.  Strictly speaking, the
-    accumulation function need not be associative but requiring it
-    allows <strong>segment trees</strong> to be constructed.</p>
+  <p class="firstPara">First of all, notice that there are only two
+  requirements for <em>xs</em>:</p>
+
+  <ul>
+    <li>we must be able to accumulate them; and</li>
+    <li>the neutral element, <em>e</em>, exists (<em>e</em> is the
+    result of queries on empty intervals).</li>
+  </ul>
+
+  <p>These two suggest that the elements of <em>xs</em>
+    are <strong>Monoid</strong>s.</p>
+
+  <p>Strictly speaking, the accumulation function need not be
+    associative, but, if it is, we can build a <strong>segment
+    trees</strong> from the list.</p>
 </div>
 
 <div class="section">
   <h2>The Naive Solution:</h2>
 
-  <p class="firstPara">This solution simply <em>mconcat</em>s the
+  <p class="firstPara">Our first solution simply <em>mconcat</em>s the
     interval's elements.</p>
 
 {% highlight haskell %}
@@ -35,12 +42,12 @@ queryInterval :: (Monoid a) => [a] -> (Int, Int) -> a
 queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
 {% endhighlight %}
 
-  <p>The <em>queryInterval</em> function requires no additional
-    space and takes time proportional to the interval's size.
-    Therefore, the time necessary to query all interval would
-    be <strong>O(n<sup>3</sup>)</strong>.  For large values
-    of <em>n</em>, this is clearly unacceptable.  A faster algorithm
-    is presented in the next section.</p>
+  <p>The <em>queryInterval</em> function requires no additional space
+    and takes time proportional to the interval's size.  Therefore,
+    the time necessary to query all intervals
+    is <strong>O(n<sup>3</sup>)</strong>.  For large values
+    of <em>n</em>, this is clearly unacceptable.  We examine a faster
+    algorithm in the next section.</p>
 </div>
 
 <div class="section">
@@ -48,4 +55,21 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
 
   <p class="firstPara">to be continued...</p>
 
+</div>
+
+<div id="resources">
+  <h2>Resources</h2>
+
+  <ul>
+    <li><a href="http://www.topcoder.com/tc?module=Static&d1=tutorials&d2=lowestCommonAncestor#Segment_Trees">
+    TopCoder article on RMQ and LCA</a> Even though the article is not
+    about segment trees (it details a few RMQ and LCA algorithms), the
+    section about them is an excellent down-to-earth
+    introduction.</li>
+
+    <li><a href="http://en.wikipedia.org/wiki/Segment_tree">Wikipedia
+    entry on segment trees</a> The page is a little to obfuscated for
+    my tastes, but, for the sake of completeness, the link is
+    here.</li>
+  </ul>
 </div>

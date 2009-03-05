@@ -137,6 +137,14 @@ img {
     padding: 0;
  }
 
+#resources li {
+    text-align: justify;
+}
+
+#resources li a {
+    margin-right: 1em;
+}
+
 #comments {
     border-top: 1px solid #aaa;
     margin-top: 3em;
