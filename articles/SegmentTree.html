@@ -1,43 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
+---
+layout: article
+title: Segment Trees
+---
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div class="section">
+  <h2>Problem:</h2>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-
-<head>
-  <meta http-equiv="content-type" content="application/xhtml+xml" />
-
-  <link rel="stylesheet" href="../css/screen.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="../css/hscolour.css" type="text/css" media="screen" />
-
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.3/prototype.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/scriptaculous/1.8.2/scriptaculous.js"></script>
-  <script type="text/javascript" src="../js/index.js"></script>
-
-  <title>Segment Trees :: scvalex.github.com</title>
-</head>
-
-<body>
-<div id="page">
-
-  <div id="header"><h1>scvalex</h1><span>Segment Trees</span></div>
-
-  <div id="nav" class="hidden"></div>
-
-  <div id="content">
-    <div class="section">
-    <h2>Problem:</h2>
-
-    <p class="firstPara">Given a list <em>xs</em>, answer a large
+  <p class="firstPara">Given a list <em>xs</em>, answer a large
     number of questions of the form "what is the accumulation of the
     elements whose indices belong to the range [l, u]?".</p>
-    </div>
+</div>
 
-    <div class="section">
-    <h2>Observations:</h2>
+<div class="section">
+  <h2>Observations:</h2>
 
-    <p class="firstPara">First of all, notice that the only
+  <p class="firstPara">First of all, notice that the only
     requirements for the elements of <em>xs</em> is that they can be
     accumulated and that the neutral element, <em>e</em>, exists
     (<em>e</em> is the result of queries on empty intervals).  These
@@ -45,57 +22,28 @@
     those that form <strong>monoids</strong>.  Strictly speaking, the
     accumulation function need not be associative but requiring it
     allows <strong>segment trees</strong> to be constructed.</p>
-    </div>
+</div>
 
-    <div class="section">
-    <h2>The Naive Solution:</h2>
+<div class="section">
+  <h2>The Naive Solution:</h2>
 
-    <p class="firstPara">This solution simply <em>mconcat</em>s the
+  <p class="firstPara">This solution simply <em>mconcat</em>s the
     interval's elements.</p>
 
-    <pre class="code"><span class='hs-definition'>queryInterval</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Monoid</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-conid'>Int</span><span class='hs-layout'>,</span> <span class='hs-conid'>Int</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span>
-<span class='hs-definition'>queryInterval</span> <span class='hs-varid'>xs</span> <span class='hs-layout'>(</span><span class='hs-varid'>l</span><span class='hs-layout'>,</span> <span class='hs-varid'>u</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>mconcat</span> <span class='hs-varop'>.</span> <span class='hs-varid'>take</span> <span class='hs-layout'>(</span><span class='hs-varid'>u</span><span class='hs-comment'>-</span><span class='hs-varid'>l</span><span class='hs-varop'>+</span><span class='hs-num'>1</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>drop</span> <span class='hs-varid'>l</span> <span class='hs-varop'>$</span> <span class='hs-varid'>xs</span>
-    </pre>
+  <pre class="code"><span class='hs-definition'>queryInterval</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Monoid</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-conid'>Int</span><span class='hs-layout'>,</span> <span class='hs-conid'>Int</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span>
+    <span class='hs-definition'>queryInterval</span> <span class='hs-varid'>xs</span> <span class='hs-layout'>(</span><span class='hs-varid'>l</span><span class='hs-layout'>,</span> <span class='hs-varid'>u</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>mconcat</span> <span class='hs-varop'>.</span> <span class='hs-varid'>take</span> <span class='hs-layout'>(</span><span class='hs-varid'>u</span><span class='hs-comment'>-</span><span class='hs-varid'>l</span><span class='hs-varop'>+</span><span class='hs-num'>1</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>drop</span> <span class='hs-varid'>l</span> <span class='hs-varop'>$</span> <span class='hs-varid'>xs</span>
+  </pre>
 
-    <p>The <em>queryInterval</em> function requires no additional
+  <p>The <em>queryInterval</em> function requires no additional
     space and takes time proportional to the interval's size.
     Therefore, the time necessary to query all interval would
     be <strong>O(n<sup>3</sup>)</strong>.  For large values
     of <em>n</em>, this is clearly unacceptable.  A faster algorithm
     is presented in the next section.</p>
-    </div>
-
-    <div class="section">
-    <h2>Simple Segment Trees:</h2>
-
-    <p class="firstPara">to be continued...</p>
-    </div>
-
-  </div>
-
-  <div id="sidebar" class="hidden"></div>
-
-  <div id="footer">
-    <ul>
-      <li><a class="emailLink" href="mailto:scvalex@gmail.com">Alexandru Scvortov</a></li>
-      <li><a href="http://scvalex.github.com/">Home</a></li>
-      <li><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0</a></li>
-      <li><a href="http://informationarchitects.jp/100E2R/">100E2R</a></li>
-    </ul>
-  </div>
-
 </div>
 
-  <script type="text/javascript">
-    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-  </script>
-  <script type="text/javascript">
-    try {
-      var pageTracker = _gat._getTracker("UA-82853-5");
-      pageTracker._trackPageview();
-    } catch(err) {}
-  </script>
-</body>
+<div class="section">
+  <h2>Simple Segment Trees:</h2>
 
-</html>
+  <p class="firstPara">to be continued...</p>
+</div>
