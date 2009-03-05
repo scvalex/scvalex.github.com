@@ -21,7 +21,7 @@ function setupDisqus() {
     logit("http://disqus.com/forums/scvalex/get_num_replies.js" + query);
 }
 
-document.observe("dom:load", function() {
+Event.observe(window, "load", function() {
     logit("Setting up page...");
     setupDisqus();
     logit("Page setup done.");
