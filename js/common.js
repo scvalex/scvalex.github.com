@@ -12,7 +12,7 @@ function setupDisqus() {
             query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
 	}
     }
-    document.insert(new Element("script", {
+    document.body.insert(new Element("script", {
 	charset: "utf-8"
 	, type: "text/javascript"
 	, src: "http://disqus.com/forums/scvalex/get_num_replies.js" + query
