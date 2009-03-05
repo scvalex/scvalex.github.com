@@ -7,8 +7,8 @@ title: Segment Trees
   <h2>Problem:</h2>
 
   <p class="firstPara">Given a list <em>xs</em>, answer a large number
-    of questions of the form "what is the accumulation of the elements
-    whose indices are in the range [l, u]?".</p>
+    of questions of the form, <strong>what is the accumulation of the elements
+    whose indices are in the range [l, u]</strong>?.</p>
 </div>
 
 <div class="section">
@@ -52,7 +52,12 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
 <div class="section">
   <h2>Simple Segment Trees:</h2>
 
-  <p class="firstPara">to be continued...</p>
+  <p class="firstPara">A list stores <em>elements</em>; i.e. it stores
+  information of the form, <strong>the value of the n<sup>th</sup>
+  element is <em>something</em></strong>. A segment tree stores
+  intervals; i.e. it stores information of the form, <strong>the
+  accumulation of the elements with indices between <em>l</em>
+  and <em>u</em> is <em>something</em></strong>.</p>
 
 </div>
 
@@ -62,13 +67,19 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
   <ul>
     <li><a href="http://www.topcoder.com/tc?module=Static&d1=tutorials&d2=lowestCommonAncestor#Segment_Trees">
     TopCoder article on RMQ and LCA</a> Even though the article is not
-    about segment trees (it details a few RMQ and LCA algorithms), the
-    section about them is an excellent down-to-earth
+    about segment trees <em>per se</em> (it details a few RMQ and LCA
+    algorithms), the section about them is an excellent down-to-earth
     introduction.</li>
 
     <li><a href="http://en.wikipedia.org/wiki/Segment_tree">Wikipedia
     entry on segment trees</a> The page is a little to obfuscated for
     my tastes, but, for the sake of completeness, the link is
     here.</li>
+
+    <li><a href="http://apfelmus.nfshost.com/monoid-fingertree.html">Monoids
+    and Finger Trees</a> apfelmus's article is a good example of how
+    to use Monoids to abstract seemingly unrelated operations.  He
+    uses them to unify priority queue operations; here, we use them to
+    abstract <strong>all</strong> valid operations on intervals.</li>
   </ul>
 </div>
