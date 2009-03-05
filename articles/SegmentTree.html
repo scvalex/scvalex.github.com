@@ -30,9 +30,10 @@ title: Segment Trees
   <p class="firstPara">This solution simply <em>mconcat</em>s the
     interval's elements.</p>
 
-  <pre class="code"><span class='hs-definition'>queryInterval</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Monoid</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-conid'>Int</span><span class='hs-layout'>,</span> <span class='hs-conid'>Int</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>a</span>
-    <span class='hs-definition'>queryInterval</span> <span class='hs-varid'>xs</span> <span class='hs-layout'>(</span><span class='hs-varid'>l</span><span class='hs-layout'>,</span> <span class='hs-varid'>u</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>mconcat</span> <span class='hs-varop'>.</span> <span class='hs-varid'>take</span> <span class='hs-layout'>(</span><span class='hs-varid'>u</span><span class='hs-comment'>-</span><span class='hs-varid'>l</span><span class='hs-varop'>+</span><span class='hs-num'>1</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>drop</span> <span class='hs-varid'>l</span> <span class='hs-varop'>$</span> <span class='hs-varid'>xs</span>
-  </pre>
+{% highlight haskell %}
+queryInterval :: (Monoid a) => [a] -> (Int, Int) -> a
+queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
+{% endhighlight %}
 
   <p>The <em>queryInterval</em> function requires no additional
     space and takes time proportional to the interval's size.
@@ -47,8 +48,4 @@ title: Segment Trees
 
   <p class="firstPara">to be continued...</p>
 
-  {% highlight haskell %}
-test :: IO ()
-test = product . enumFromTo 1
-  {% endhighlight %}
 </div>
