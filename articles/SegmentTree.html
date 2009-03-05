@@ -80,7 +80,7 @@ data (Monoid a) => SegmentTree a = SegmentTree (Tree a) (Int, Int)
   <p>There are two types of nodes:</p>
   <ul>
     <li>Each <strong>leaf</strong> holds a single element.  Reading
-        the leaves left to right yields the initial list.</li>
+        the leaves left to right yields the initial list;</li>
     <li>Each <strong>branch</strong> holds an interval which is the
         union of its children.  The value of a branch is the
         accumulation of the values of its children.  Each branch
@@ -92,7 +92,7 @@ data (Monoid a) => SegmentTree a = SegmentTree (Tree a) (Int, Int)
   <p>We construct a segment tree recursively by starting with the list
   and repeatedly splitting it in half.</p>
 
-  <p>For the sake of efficieny, we only chop off the beginning of the
+  <p>For the sake of efficiency, we only chop off the beginning of the
   list.  The list's head is always where it should be, but its end
   remains fixed.</p>
 
@@ -115,6 +115,36 @@ mkTree xs = SegmentTree (go xs listBounds) listBounds
 getCargo (Branch x _ _) = x
 getCargo (Leaf x)       = x
 {% endhighlight %}
+
+  <p>To query a tree, we start at the root and descend matching the
+  nodes onto the specified interval.</p>
+
+{% highlight haskell %}
+-- Query the 'SegmentTree' for the specified closed interval. Time:
+-- O(log n)
+queryTree :: (Monoid a) => SegmentTree a -> (Int, Int) -> a
+queryTree (SegmentTree t (s, e)) (l, u) = go t (s, e)
+    where
+      -- we're querying for (l, u)
+      go t (s, e)
+          | (l > e) || (u < s)   = mempty
+          | (l <= s) && (u >= e) = getCargo t
+          | otherwise = let (Branch _ leftc rightc) = t
+                            m = (e-s) `div` 2
+                            lv = go leftc (s, s+m)
+                            rv = go rightc (s+m+1, e)
+                        in lv `mappend` rv
+{% endhighlight %}
+
+  <p>During the descent, three distinct situations arise:</p>
+  <ul>
+    <li>if the queried interval is invalid, the result is <em>mempty</em>;</li>
+    <li>if the queried interval completely overlaps the node, the
+    result is the node's value;</li>
+    <li>if the queried interval is included in the current node, we
+    rerun the function on its two halves and accumulate the
+    results.</li>
+  </ul>
 
 </div>
 
