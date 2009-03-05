@@ -22,6 +22,7 @@ function setupDisqus() {
 }
 
 document.observe("dom:load", function() {
+    logit("Setting up page...");
     setupDisqus();
     logit("Page setup done.");
 });
