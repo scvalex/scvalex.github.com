@@ -4,10 +4,11 @@ function logit(s) {
 }
 
 function setupDisqus() {
+    logit("Inserting DISQUS code...");
     var links = document.getElementsByTagName('a');
     var query = '?';
     for (var i = 0; i < links.length; i++) {
-	if(links[i].href.indexOf('#disqus_thread') >= 0) {
+	if (links[i].href.indexOf('#disqus_thread') >= 0) {
             query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
 	}
     }
@@ -22,4 +23,5 @@ function setupDisqus() {
 
 document.observe("dom:load", function() {
     setupDisqus();
+    logit("Page setup done.");
 });
