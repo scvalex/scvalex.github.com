@@ -140,7 +140,7 @@ queryTree (SegmentTree t (s, e)) (l, u) = go t (s, e)
   <ul>
     <li>if the queried interval is invalid, the result is <em>mempty</em>;</li>
     <li>if the queried interval completely overlaps the node, the
-    result is the node's value;</li>
+    result is the node's value; and</li>
     <li>if the queried interval is included in the current node, we
     rerun the function on its two halves and accumulate the
     results.</li>
@@ -152,7 +152,7 @@ queryTree (SegmentTree t (s, e)) (l, u) = go t (s, e)
   <h2>Resources</h2>
 
   <ul>
-    <li><a href="http://www.topcoder.com/tc?module=Static&d1=tutorials&d2=lowestCommonAncestor#Segment_Trees">
+    <li><a href="http://www.topcoder.com/tc?module=Static&amp;d1=tutorials&amp;d2=lowestCommonAncestor#Segment_Trees">
     TopCoder article on RMQ and LCA</a> Even though the article is not
     about segment trees <em>per se</em> (it details a few RMQ and LCA
     algorithms), the section on them is an excellent down-to-earth
