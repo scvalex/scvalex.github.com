@@ -25,3 +25,5 @@ document.observe("dom:load", function() {
     setupDisqus();
     logit("Page setup done.");
 });
+
+logit("Loaded common.js");
