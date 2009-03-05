@@ -20,7 +20,7 @@ title: Segment Trees
   <ul>
     <li>we must be able to accumulate them; and</li>
     <li>the neutral element, <em>e</em>, exists (<em>e</em> is the
-    result of queries on empty intervals).</li>
+        result of queries on empty intervals).</li>
   </ul>
 
   <p>These two suggest that the elements are <strong>Monoid</strong>s.</p>
@@ -59,11 +59,60 @@ queryInterval xs (l, u) = mconcat . take (u-l+1) . drop l $ xs
   accumulation of the elements with indices between <em>l</em>
   and <em>u</em> is <em>something</em></strong>.</p>
 
+  <p>An example will clarify matters.  Here is the interval tree for
+  [1..7] accumulated using addition.</p>
+
   <div class="imageBox">
     <img src="SegmentTree/sumTree17.png" alt="the sum interval tree for [1..7]" />
     <span class="caption">The interval tree for [1..7] with addition
     as accumulation</span>
   </div>
+
+  <p>There are two types of nodes:</p>
+  <ul>
+    <li>Each <strong>leaf</strong> holds a single element.  Reading
+        the leaves left to right yields the initial list.</li>
+    <li>Each <strong>branch</strong> holds an interval which is the
+        union of its children.  The value of a branch is the
+        accumulation of the values of its children.  Each branch
+        has <em>exactly</em> two children.  Combining the branches on
+        a level left-to-right results in an interval which perfectly
+        overlaps the initial list.</li>
+  </ul>
+
+{% highlight haskell %}
+-- A binary tree.
+data (Monoid a) => Tree a = Branch a (Tree a) (Tree a) | Leaf a
+
+-- A 'SegmentTree' is a binary tree and the bounds of its
+-- corresponding interval.
+data (Monoid a) => SegmentTree a = SegmentTree (Tree a) (Int, Int)
+{% endhighlight %}
+
+  <p>We construct a segment tree recursively by starting with the list
+  and repeatedly splitting it in half.  In the following code, we only
+  chop off the beginning of the list so that, at every iteration of the
+  function, the list head is where it should be.</p>
+
+{% highlight haskell %}
+-- Build the 'SegmentTree' for the given list. Time: O(n*log n)
+mkTree :: (Monoid a) => [a] -> SegmentTree a
+mkTree xs = SegmentTree (go xs listBounds) listBounds
+    where
+      listBounds = (0, length xs - 1)
+      go ys (l, u)
+          -- invariant: head ys == xs !! l
+          | l == u    = Leaf (head ys)
+          | otherwise = 
+              let m      = (u-l) `div` 2
+                  leftc  = go ys (l, l+m)
+                  rightc = go (drop (m+1) ys) (l+m+1, u)
+              in Branch (getCargo leftc `mappend` getCargo rightc) 
+                        leftc rightc
+
+getCargo (Branch x _ _) = x
+getCargo (Leaf x)       = x
+{% endhighlight %}
 
 </div>
 
