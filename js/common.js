@@ -5,7 +5,7 @@ function logit(s) {
 
 function setupDisqus() {
     logit("Inserting DISQUS code...");
-    var links = document.getElementsByTagName('a');
+    var links = $$("a");
     var query = '?';
     for (var i = 0; i < links.length; i++) {
 	if (links[i].href.indexOf('#disqus_thread') >= 0) {
@@ -18,7 +18,6 @@ function setupDisqus() {
 	, src: "http://disqus.com/forums/scvalex/get_num_replies.js" + query
     }));
     logit("DISQUS code inserted");
-    logit("http://disqus.com/forums/scvalex/get_num_replies.js" + query);
 }
 
 Event.observe(window, "load", function() {
