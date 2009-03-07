@@ -60,6 +60,10 @@ img {
     margin-left: 4em;
 }
 
+.noindent {
+    margin-left: 0em;
+}
+
 .bordered {
     border: 1px solid #999;
 }
@@ -129,7 +133,7 @@ img {
     text-align: justify;
 }
 
-#content div {
+#content div.section {
     margin-top: 1em;
 }
 
@@ -145,15 +149,13 @@ img {
     margin-top: .2em;
 }
 
-#content p {
-    margin-top: .4em;
-}
-
 #content ul li {
     margin-left: 2em;
+    margin-top: .2em;
 }
 
 #content p {
+    margin-top: 1em;
     text-align: justify;
 }
 
