@@ -48,22 +48,6 @@ img {
     display: none;
 }
 
-.indent {
-    margin-left: 1em;
-}
-
-.Indent {
-    margin-left: 2em;
-}
-
-.INDENT {
-    margin-left: 4em;
-}
-
-.noindent {
-    margin-left: 0em;
-}
-
 .bordered {
     border: 1px solid #999;
 }
@@ -155,7 +139,7 @@ img {
 }
 
 #content p {
-    margin-top: 1em;
+    margin-top: .6em;
     text-align: justify;
 }
 
@@ -172,6 +156,7 @@ img {
 #resources h2 {
     display: block;
     margin-bottom: .6em;
+    margin-top: 2em;
 }
 
 #resources ul li {
