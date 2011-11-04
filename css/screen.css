@@ -44,6 +44,16 @@ img {
 
 /*----------------------------------------*/
 
+.warning {
+    background-color: #faa;
+    border-radius: 2px;
+    font-family: sans-serif;
+    margin: 0.4em 2em;
+    padding: 0.4em;
+}
+
+/*----------------------------------------*/
+
 .hidden {
     display: none;
 }
